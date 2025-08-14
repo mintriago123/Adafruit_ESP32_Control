@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control ESP32</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script src="main.ts" type="module"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+  }
+  .container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #1f2937;
+    text-align: center;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 500;
+  }
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  .button-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s;
+    flex: 1;
+  }
+  .btn-primary {
+    background-color: #3b82f6;
+  }
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+  .btn-secondary {
+    background-color: #6b7280;
+  }
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+  .btn-on {
+    background-color: #10b981;
+  }
+  .btn-on:hover {
+    background-color: #059669;
+  }
+  .btn-off {
+    background-color: #ef4444;
+  }
+  .btn-off:hover {
+    background-color: #dc2626;
+  }
+  .btn-logout {
+    background-color: #f59e0b;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  .btn-logout:hover {
+    background-color: #d97706;
+  }
+  #status {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #374151;
+    text-align: center;
+  }
+  .hidden {
+    display: none;
+  }
+  .error {
+    color: #ef4444;
+  }
+  .success {
+    color: #10b981;
+  }
+</style>
+</head>
+<body>
+  <!-- Pantalla de autenticación -->
+  <div id="authSection" class="container">
+    <h1>Control ESP32</h1>
+    
+    <!-- Formulario de Login -->
+    <div id="loginForm">
+      <div class="form-group">
+        <label for="loginUsername">Usuario:</label>
+        <input type="text" id="loginUsername" placeholder="Ingresa tu usuario">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Contraseña:</label>
+        <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña">
+      </div>
+      <div class="button-container">
+        <button id="btnLogin" class="btn-primary">Iniciar Sesión</button>
+        <button id="btnShowRegister" class="btn-secondary">Registrarse</button>
+      </div>
+    </div>
+
+    <!-- Formulario de Registro -->
+    <div id="registerForm" class="hidden">
+      <div class="form-group">
+        <label for="registerUsername">Usuario:</label>
+        <input type="text" id="registerUsername" placeholder="Elige un usuario">
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Contraseña:</label>
+        <input type="password" id="registerPassword" placeholder="Elige una contraseña">
+      </div>
+      <div class="button-container">
+        <button id="btnRegister" class="btn-primary">Registrarse</button>
+        <button id="btnShowLogin" class="btn-secondary">Ya tengo cuenta</button>
+      </div>
+    </div>
+
+    <p id="authStatus"></p>
+  </div>
+
+  <!-- Pantalla de control de dispositivos -->
+  <div id="controlSection" class="container hidden">
+    <h1>Control de Relé ESP32</h1>
+    <div class="button-container">
+      <button id="btnOn" class="btn-on">Encender</button>
+      <button id="btnOff" class="btn-off">Apagar</button>
+    </div>
+    <p id="status"></p>
+    <button id="btnLogout" class="btn-logout">Cerrar Sesión</button>
+  </div>
+</body>
+</html>
