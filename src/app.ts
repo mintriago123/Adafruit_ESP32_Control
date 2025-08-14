@@ -51,8 +51,7 @@ class App {
     const userRepository = new SQLiteUserRepository(db);
     const deviceRepository = new AdafruitDeviceRepository(
       config.adafruit.username,
-      config.adafruit.apiKey,
-      config.adafruit.feedName
+      config.adafruit.apiKey
     );
 
     // Use Cases

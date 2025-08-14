@@ -24,7 +24,35 @@
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
+  }
+  .relay-control {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+  }
+  .relay-control h3 {
+    margin: 0 0 1rem 0;
+    color: #374151;
+    font-size: 1.1rem;
+  }
+  .status-indicator {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-left: 1rem;
+  }
+  .status-indicator.on {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  .status-indicator.off {
+    background-color: #fef2f2;
+    color: #991b1b;
   }
   h1 {
     font-size: 2rem;
@@ -162,12 +190,50 @@
 
   <!-- Pantalla de control de dispositivos -->
   <div id="controlSection" class="container hidden">
-    <h1>Control de Relé ESP32</h1>
-    <div class="button-container">
-      <button id="btnOn" class="btn-on">Encender</button>
-      <button id="btnOff" class="btn-off">Apagar</button>
+    <h1>Control de Relés ESP32</h1>
+    
+    <!-- Control Relé 1 -->
+    <div class="relay-control">
+      <h3>Relé 1 (GPIO 7)</h3>
+      <div class="button-container">
+        <button id="btnRele1On" class="btn-on">Encender</button>
+        <button id="btnRele1Off" class="btn-off">Apagar</button>
+      </div>
+      <span id="statusRele1" class="status-indicator">OFF</span>
     </div>
+
+    <!-- Control Relé 2 -->
+    <div class="relay-control">
+      <h3>Relé 2 (GPIO 8)</h3>
+      <div class="button-container">
+        <button id="btnRele2On" class="btn-on">Encender</button>
+        <button id="btnRele2Off" class="btn-off">Apagar</button>
+      </div>
+      <span id="statusRele2" class="status-indicator">OFF</span>
+    </div>
+
+    <!-- Control Relé 3 -->
+    <div class="relay-control">
+      <h3>Relé 3 (GPIO 9)</h3>
+      <div class="button-container">
+        <button id="btnRele3On" class="btn-on">Encender</button>
+        <button id="btnRele3Off" class="btn-off">Apagar</button>
+      </div>
+      <span id="statusRele3" class="status-indicator">OFF</span>
+    </div>
+
+    <!-- Control Relé 4 -->
+    <div class="relay-control">
+      <h3>Relé 4 (GPIO 10)</h3>
+      <div class="button-container">
+        <button id="btnRele4On" class="btn-on">Encender</button>
+        <button id="btnRele4Off" class="btn-off">Apagar</button>
+      </div>
+      <span id="statusRele4" class="status-indicator">OFF</span>
+    </div>
+
     <p id="status"></p>
+    <button id="btnRefresh" class="btn-secondary" style="width: 100%; margin-bottom: 1rem;">Actualizar Estado</button>
     <button id="btnLogout" class="btn-logout">Cerrar Sesión</button>
   </div>
 </body>

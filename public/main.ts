@@ -19,9 +19,22 @@ const btnShowLogin = document.getElementById("btnShowLogin")!;
 const btnLogout = document.getElementById("btnLogout")!;
 
 // Elementos de control de dispositivos
-const btnOn = document.getElementById("btnOn")!;
-const btnOff = document.getElementById("btnOff")!;
+const btnRele1On = document.getElementById("btnRele1On")!;
+const btnRele1Off = document.getElementById("btnRele1Off")!;
+const btnRele2On = document.getElementById("btnRele2On")!;
+const btnRele2Off = document.getElementById("btnRele2Off")!;
+const btnRele3On = document.getElementById("btnRele3On")!;
+const btnRele3Off = document.getElementById("btnRele3Off")!;
+const btnRele4On = document.getElementById("btnRele4On")!;
+const btnRele4Off = document.getElementById("btnRele4Off")!;
+const btnRefresh = document.getElementById("btnRefresh")!;
 const statusElement = document.getElementById("status")!;
+
+// Indicadores de estado
+const statusRele1 = document.getElementById("statusRele1")!;
+const statusRele2 = document.getElementById("statusRele2")!;
+const statusRele3 = document.getElementById("statusRele3")!;
+const statusRele4 = document.getElementById("statusRele4")!;;
 
 // Estado de autenticación
 let isAuthenticated = false;
@@ -40,9 +53,24 @@ function setupEventListeners(): void {
   btnShowLogin.addEventListener("click", showLoginForm);
   btnLogout.addEventListener("click", handleLogout);
 
-  // Eventos de control de dispositivos
-  btnOn.addEventListener("click", () => sendCommand("on"));
-  btnOff.addEventListener("click", () => sendCommand("off"));
+  // Eventos de control de dispositivos - Relé 1
+  btnRele1On.addEventListener("click", () => sendCommand("rele1", "on"));
+  btnRele1Off.addEventListener("click", () => sendCommand("rele1", "off"));
+  
+  // Eventos de control de dispositivos - Relé 2
+  btnRele2On.addEventListener("click", () => sendCommand("rele2", "on"));
+  btnRele2Off.addEventListener("click", () => sendCommand("rele2", "off"));
+  
+  // Eventos de control de dispositivos - Relé 3
+  btnRele3On.addEventListener("click", () => sendCommand("rele3", "on"));
+  btnRele3Off.addEventListener("click", () => sendCommand("rele3", "off"));
+  
+  // Eventos de control de dispositivos - Relé 4
+  btnRele4On.addEventListener("click", () => sendCommand("rele4", "on"));
+  btnRele4Off.addEventListener("click", () => sendCommand("rele4", "off"));
+
+  // Evento de actualizar estado
+  btnRefresh.addEventListener("click", updateDevicesStatus);
 
   // Enter key en formularios
   loginPassword.addEventListener("keypress", (e) => {
@@ -72,6 +100,7 @@ function showAuthSection(): void {
 function showControlSection(): void {
   authSection.classList.add("hidden");
   controlSection.classList.remove("hidden");
+  updateDevicesStatus(); // Actualizar estado al mostrar la sección
 }
 
 function showLoginForm(): void {
@@ -183,18 +212,48 @@ function showAuthMessage(message: string, type: "success" | "error"): void {
   authStatus.className = type;
 }
 
-async function sendCommand(command: "on" | "off"): Promise<void> {
+async function sendCommand(device: string, command: "on" | "off"): Promise<void> {
   if (!isAuthenticated) {
     statusElement.textContent = "Debes iniciar sesión para usar esta función";
     return;
   }
 
   try {
-    const response = await fetch(`/device/${command}`);
+    const response = await fetch(`/device/${device}/${command}`);
     const data = await response.json();
     statusElement.textContent = data.status || data.error;
+    
+    // Actualizar estado visual después del comando
+    setTimeout(() => updateDevicesStatus(), 1000);
   } catch (error) {
     statusElement.textContent = "Error enviando comando";
     console.error(error);
   }
+}
+
+async function updateDevicesStatus(): Promise<void> {
+  if (!isAuthenticated) return;
+
+  try {
+    const response = await fetch('/device/status');
+    const result = await response.json();
+    
+    if (response.ok && result.data) {
+      updateStatusIndicators(result.data);
+    }
+  } catch (error) {
+    console.error('Error actualizando estado:', error);
+  }
+}
+
+function updateStatusIndicators(status: any): void {
+  updateStatusIndicator(statusRele1, status.rele1);
+  updateStatusIndicator(statusRele2, status.rele2);
+  updateStatusIndicator(statusRele3, status.rele3);
+  updateStatusIndicator(statusRele4, status.rele4);
+}
+
+function updateStatusIndicator(element: HTMLElement, status: string): void {
+  element.textContent = status;
+  element.className = `status-indicator ${status.toLowerCase()}`;
 }

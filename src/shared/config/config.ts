@@ -7,6 +7,11 @@ export const config = {
   adafruit: {
     username: process.env.AIO_USERNAME || '',
     apiKey: process.env.AIO_KEY || '',
-    feedName: process.env.FEED_NAME || '',
+    feeds: {
+      rele1: process.env.FEED_RELE1 || 'rele1',
+      rele2: process.env.FEED_RELE2 || 'rele2',
+      rele3: process.env.FEED_RELE3 || 'rele3',
+      rele4: process.env.FEED_RELE4 || 'rele4',
+    }
   },
 };
